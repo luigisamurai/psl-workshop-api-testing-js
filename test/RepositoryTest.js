@@ -1,14 +1,13 @@
 const request = require('superagent-promise')(require('superagent'), Promise);
 const expect = require('chai').expect
-const base64 = require('base-64');
-const utf8 = require('utf8');
-const config = require('config');
 const HttpStatus = require('http-status-codes');
-const githubAccount = {
-  baseUrl: 'https://api.github.com',
-  accessToken: base64.decode(config.accessToken)
-};
+const config = require('config');
+const base64 = require('base-64');
 
+const githubAccount = {
+  baseUrl: config.github.baseUrl,
+  accessToken: base64.decode(config.github.accessToken)
+};
 let profile;
 let repositoryName;
 
