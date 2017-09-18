@@ -1,1 +1,1 @@
-# psl-workshop-api-testing-js
+# PSL Workshop Api Testing JS
