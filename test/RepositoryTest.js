@@ -11,7 +11,7 @@ const githubAccount = {
 let profile;
 let repositoryName;
 
-describe('Given a Github username', () => {
+describe('Given a Github user authenticated', () => {
   describe('when a user it authenticates using an application token', () => {
     let tokenLoginResponse;
 
