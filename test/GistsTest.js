@@ -1,4 +1,5 @@
 const request = require('superagent-promise')(require('superagent'), Promise);
+const agent = require('superagent');
 const expect = require('chai').expect
 const HttpStatus = require('http-status-codes');
 const config = require('config');
@@ -10,6 +11,54 @@ const githubAccount = {
 };
 
 describe('Given a Github username', () => {
+  describe('when get all the public gists', () => {
+    let nextLink;
+    let allGitsFilterByGithub;
+
+    before(async () => {
+      await request
+        .head(`${githubAccount.baseUrl}/gists`)
+        .end(function(err, res){
+          nextLink = res.header.link;
+        });
+      
+      allGitsFilterByGithub = await request
+        .get(`${githubAccount.baseUrl}/gists`);
+    });
+
+    it('then should exist a link', () => {
+      expect(nextLink).to.not.equal(undefined);
+    });
+
+    it('and return register should be thirty items', () => {
+      expect(allGitsFilterByGithub.body.length).to.equal(30);
+    });
+
+    describe('when accesses to second page', () => {
+      let firstGitsResponse;
+      let hundredGitsResponse;
+      let tenGitsResponse;
+
+      before(async () => {
+        firstGitsResponse = await request
+          .get(`${githubAccount.baseUrl}/gists`)
+          .query({per_page: 10});
+        
+          hundredGitsResponse = await request
+            .get(`${githubAccount.baseUrl}/gists`)
+            .query({per_page: 100});
+      });
+      
+      it('then the body should contain ten items', () => {
+        expect(firstGitsResponse.body.length).to.equal(10);
+      });
+
+      it('and the body should contain one hundred items', () => {
+        expect(hundredGitsResponse.body.length).to.equal(100);
+      });
+    });
+  });
+
   describe('when it creates a Gits', () => {
     let createGitsResponse;
     let gist;
