@@ -33,7 +33,7 @@ describe('Given a Github username', () => {
       expect(allGitsFilterByGithub.body.length).to.equal(30);
     });
 
-    describe('when accesses to second page', () => {
+    describe('when it filters the items', () => {
       let firstGitsResponse;
       let hundredGitsResponse;
       let tenGitsResponse;
